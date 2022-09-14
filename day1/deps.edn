@@ -1,0 +1,27 @@
+;; The deps.edn file describes the information needed to build a classpath.
+;;
+;; When using the `clojure` or `clj` script, there are several deps.edn files
+;; that are combined:
+;; - install-level
+;; - user level (this file)
+;; - project level (current directory when invoked)
+;;
+;; For all attributes other than :paths, these config files are merged left to right.
+;; Only the last :paths is kept and others are dropped.
+
+{
+  :paths ["src"]
+  :deps {
+    org.clojure/clojure {:mvn/version "1.11.1"}
+  }
+  :aliases {:run  {:exec-fn aoc-day-one.core/-main}
+            :test {:extra-paths ["test"]
+                   :extra-deps {io.github.cognitect-labs/test-runner
+                                {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+                   :main-opts {"-m" "cognitect.test-runner"}
+                   :exec-fn cognitect.test-runner.api/test}}
+  :mvn/repos {
+    "central" {:url "https://repo1.maven.org/maven2/"}
+    "clojars" {:url "https://repo.clojars.org/"}
+  }
+}
